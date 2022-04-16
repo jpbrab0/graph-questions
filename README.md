@@ -156,7 +156,7 @@ graph LR;
 			F[Delete question]
       A-->B;
       B-->|Yes| C;
-			B-->|NO| D;
+			B-->|No| D;
 			D--> B;
 			C-->E;
 			C-->F;
