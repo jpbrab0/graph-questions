@@ -1,4 +1,4 @@
-export async function getRoomInfo(_, { id }, { prisma }) {
+async function getRoomInfo(_, { id }, { prisma }) {
 	const parsedId = parseInt(id);
 	try {
 		const data = await prisma.room.findUnique({
@@ -16,7 +16,7 @@ export async function getRoomInfo(_, { id }, { prisma }) {
 	}
 }
 
-export async function createRoom(_, args, context) {
+async function createRoom(_, args, context) {
 	const { name, password } = args.data;
 	const { prisma } = context;
 	try {
@@ -38,7 +38,7 @@ export async function createRoom(_, args, context) {
 	}
 }
 
-export async function deleteRoom(_, { id }, { prisma }) {
+async function deleteRoom(_, { id }, { prisma }) {
 	try {
 		const parsedId = parseInt(id);
 
@@ -60,3 +60,5 @@ export async function deleteRoom(_, { id }, { prisma }) {
 		return false;
 	}
 }
+
+export { getRoomInfo, createRoom, deleteRoom };

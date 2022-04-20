@@ -1,4 +1,4 @@
-export async function createQuestion(parent, args, { prisma }) {
+async function createQuestion(parent, args, { prisma }) {
 	const { question, roomId } = args.data;
 	const parsedId = parseInt(roomId);
 	try {
@@ -18,7 +18,7 @@ export async function createQuestion(parent, args, { prisma }) {
 	}
 }
 
-export async function readQuestion(_, { id }, { prisma }) {
+async function readQuestion(_, { id }, { prisma }) {
 	try {
 		const parsedId = parseInt(id);
 
@@ -38,7 +38,7 @@ export async function readQuestion(_, { id }, { prisma }) {
 	}
 }
 
-export async function deleteQuestion(_, { id }, { prisma }) {
+async function deleteQuestion(_, { id }, { prisma }) {
 	try {
 		const parsedId = parseInt(id);
 
@@ -54,3 +54,5 @@ export async function deleteQuestion(_, { id }, { prisma }) {
 		return false;
 	}
 }
+
+export { createQuestion, readQuestion, deleteQuestion };
