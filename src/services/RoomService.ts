@@ -1,64 +1,52 @@
-async function getRoomInfo(_, { id }, { prisma }) {
-	const parsedId = parseInt(id);
-	try {
-		const data = await prisma.room.findUnique({
-			where: {
-				id: parsedId,
-			},
-			include: {
-				questions: true,
-			},
-		});
+/* eslint-disable no-unused-vars */
 
-		return data;
-	} catch (e) {
-		return e;
-	}
+import { IRoomRepository } from '../repositories/RoomRepository';
+
+type CreateProps = {
+	name: string;
+	password?: string;
+};
+
+interface IRoomService {
+	create({ name, password }: CreateProps): Promise<boolean>;
+	get(id: any): Promise<object | false>;
+	delete(id: any): Promise<boolean>;
 }
 
-async function createRoom(_, args, context) {
-	const { name, password } = args.data;
-	const { prisma } = context;
-	try {
-		console.log('Inserting room in the database');
-		await prisma.room.create({
-			data: {
-				name,
-				password,
-				questions: {
-					create: [],
-				},
-			},
-		});
-		console.log('Room entered successfully!');
-		return true;
-	} catch (e) {
-		console.log(e);
-		return false;
+export class RoomService implements IRoomService {
+	constructor(private repository: IRoomRepository) {
+		this.repository = repository;
+	}
+
+	public async create({ name, password }): Promise<boolean> {
+		try {
+			this.repository.create(name, password);
+
+			return true;
+		} catch (e) {
+			console.log(e);
+			return false;
+		}
+	}
+	public async get(id: any): Promise<object | false> {
+		try {
+			const parseId = parseInt(id);
+
+			return this.repository.get(parseId);
+		} catch (e) {
+			console.log(e);
+			return false;
+		}
+	}
+	public async delete(id: any): Promise<boolean> {
+		try {
+			const parseId = parseInt(id);
+			this.repository.delete(parseId);
+
+			return true;
+		} catch (e) {
+			console.log(e);
+			return false;
+		}
 	}
 }
-
-async function deleteRoom(_, { id }, { prisma }) {
-	try {
-		const parsedId = parseInt(id);
-
-		await prisma.question.deleteMany({
-			where: {
-				roomId: parsedId,
-			},
-		});
-
-		await prisma.room.delete({
-			where: {
-				id: parsedId,
-			},
-		});
-
-		return true;
-	} catch (e) {
-		console.log(e);
-		return false;
-	}
-}
-
-export { getRoomInfo, createRoom, deleteRoom };

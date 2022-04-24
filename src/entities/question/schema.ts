@@ -13,13 +13,13 @@ export const questionSchema = gql`
 		roomId: ID
 	}
 
-	type Mutation {
+	extend type Mutation {
 		createQuestion(data: QuestionTypes!): Boolean
 		readQuestion(id: ID!): Boolean
 		deleteQuestion(id: ID!): Boolean
 	}
 
-	type Query {
+	extend type Query {
 		getQuestion(id: ID!): Question!
 	}
 `;

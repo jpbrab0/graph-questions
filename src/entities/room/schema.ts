@@ -9,16 +9,16 @@ export const roomSchema = gql`
 	type Room {
 		id: ID!
 		name: String!
-		password: String!
+		password: String
 		questions: [Question]!
 	}
 
-	type Mutation {
+	extend type Mutation {
 		createRoom(data: RoomInput): Boolean!
 		deleteRoom(id: ID!): Boolean!
 	}
 
-	type Query {
+	extend type Query {
 		getRoomInfo(id: ID): Room
 	}
 `;

@@ -1,58 +1,51 @@
-async function createQuestion(parent, args, { prisma }) {
-	const { question, roomId } = args.data;
-	const parsedId = parseInt(roomId);
-	try {
-		console.log('Inserting question in the database');
-		console.log(question);
-		await prisma.question.create({
-			data: {
-				question,
-				roomId: parsedId,
-			},
-		});
-		console.log('Question entered successfully!');
-		return true;
-	} catch (e) {
-		console.log(e);
-		return false;
-	}
+/* eslint-disable no-unused-vars */
+import { IQuestionRepository } from '../repositories/QuestionRepository';
+
+type CreateProps = {
+	question: string;
+	roomId: any;
+};
+
+interface IQuestionService {
+	create({ question, roomId }: CreateProps): Promise<boolean>;
+	read(id: any): Promise<boolean>;
+	delete(id: any): Promise<boolean>;
 }
 
-async function readQuestion(_, { id }, { prisma }) {
-	try {
-		const parsedId = parseInt(id);
+export class QuestionService implements IQuestionService {
+	constructor(private repository: IQuestionRepository) {
+		this.repository = repository;
+	}
 
-		await prisma.question.update({
-			where: {
-				id: parsedId,
-			},
-			data: {
-				read: true,
-			},
-		});
+	public async create({ question, roomId }): Promise<boolean> {
+		try {
+			const parsedRoomId = parseInt(roomId);
+			this.repository.create(question, parsedRoomId);
 
-		return true;
-	} catch (e) {
-		console.log(e);
-		return false;
+			return true;
+		} catch (e) {
+			console.log(e);
+			return false;
+		}
+	}
+	async read(id: any): Promise<boolean> {
+		try {
+			const parsedId = parseInt(id);
+			this.repository.read(parsedId);
+
+			return true;
+		} catch (e) {
+			throw Error(e);
+		}
+	}
+	async delete(id: any): Promise<boolean> {
+		try {
+			const parsedId = parseInt(id);
+			this.repository.delete(parsedId);
+
+			return true;
+		} catch (e) {
+			throw Error(e);
+		}
 	}
 }
-
-async function deleteQuestion(_, { id }, { prisma }) {
-	try {
-		const parsedId = parseInt(id);
-
-		await prisma.question.delete({
-			where: {
-				id: parsedId,
-			},
-		});
-
-		return true;
-	} catch (e) {
-		console.log(e);
-		return false;
-	}
-}
-
-export { createQuestion, readQuestion, deleteQuestion };
