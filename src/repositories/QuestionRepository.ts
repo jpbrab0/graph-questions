@@ -2,10 +2,17 @@
 
 import { PrismaClient } from '@prisma/client';
 
+interface CreateReturnType {
+	id: number;
+	question: string;
+	read: boolean;
+	roomId: number;
+}
+
 export interface IQuestionRepository {
-	create(question: string, roomId: number): Promise<void>;
-	read(id: number): Promise<void>;
-	delete(id: number): Promise<void>;
+	create(question: string, roomId: number);
+	read(id: number);
+	delete(id: number);
 }
 
 export class QuestionRepository implements IQuestionRepository {
@@ -13,7 +20,7 @@ export class QuestionRepository implements IQuestionRepository {
 		this.prisma = prisma;
 	}
 
-	async create(question: string, roomId: number): Promise<void> {
+	async create(question: string, roomId: number) {
 		await this.prisma.question.create({
 			data: {
 				question,
@@ -22,7 +29,7 @@ export class QuestionRepository implements IQuestionRepository {
 		});
 	}
 
-	async read(id: number): Promise<void> {
+	async read(id: number) {
 		await this.prisma.question.update({
 			where: {
 				id,
@@ -33,7 +40,7 @@ export class QuestionRepository implements IQuestionRepository {
 		});
 	}
 
-	async delete(id: number): Promise<void> {
+	async delete(id: number) {
 		await this.prisma.question.delete({
 			where: {
 				id: id,

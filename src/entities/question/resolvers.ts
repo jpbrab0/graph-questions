@@ -1,8 +1,8 @@
-import { context } from '../../context';
+import { prisma } from '../../prisma';
 import { QuestionRepository } from '../../repositories/QuestionRepository';
 import { QuestionService } from '../../services/QuestionService';
 
-const questionRepository = new QuestionRepository(context.prisma);
+const questionRepository = new QuestionRepository(prisma);
 const service = new QuestionService(questionRepository);
 
 export const questionResolver = {

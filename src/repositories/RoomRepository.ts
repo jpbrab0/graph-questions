@@ -10,9 +10,9 @@ interface GetReturnTypes {
 }
 
 export interface IRoomRepository {
-	create(name: string, password?: string): Promise<void>;
+	create(name: string, password?: string);
 	get(id: number): Promise<GetReturnTypes>;
-	delete(id: number): Promise<void>;
+	delete(id: number);
 }
 
 export class RoomRepository implements IRoomRepository {
@@ -20,7 +20,7 @@ export class RoomRepository implements IRoomRepository {
 		this.prisma = prisma;
 	}
 
-	async create(name: string, password?: string): Promise<void> {
+	async create(name: string, password?: string) {
 		await this.prisma.room.create({
 			data: {
 				name,
@@ -43,7 +43,7 @@ export class RoomRepository implements IRoomRepository {
 		});
 	}
 
-	async delete(id: number): Promise<void> {
+	async delete(id: number) {
 		await this.prisma.room.delete({
 			where: {
 				id: id,
