@@ -1,8 +1,8 @@
-import { context } from '../../context';
+import { prisma } from '../../prisma';
 import { RoomRepository } from '../../repositories/RoomRepository';
 import { RoomService } from '../../services/RoomService';
 
-const roomRepository = new RoomRepository(context.prisma);
+const roomRepository = new RoomRepository(prisma);
 const service = new RoomService(roomRepository);
 
 export const roomResolver = {

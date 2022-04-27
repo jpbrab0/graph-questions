@@ -35,10 +35,6 @@ export class RoomRepository implements IRoomRepository {
 	}
 
 	async delete(id: number): Promise<void> {
-		await this.prisma.room.delete({
-			where: {
-				id,
-			},
-		});
+		await this.prisma.room.delete({ where: { id }});
 	}
 }
