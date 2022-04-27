@@ -7,16 +7,8 @@ const service = new QuestionService(questionRepository);
 
 export const questionResolver = {
 	Mutation: {
-		createQuestion: (_, args, __) => {
-			const { data } = args;
-
-			return service.create(data);
-		},
-		readQuestion: (_, { id }, __) => {
-			return service.read(id);
-		},
-		deleteQuestion: (_, { id }, __) => {
-			return service.delete(id);
-		},
+		createQuestion: (_, { data }) => service.create(data),
+		readQuestion: (_, { id }) => service.read(id),
+		deleteQuestion: (_, { id }) => service.delete(id),
 	},
 };

@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars */
-
 import { PrismaClient } from '@prisma/client';
 
 export interface IQuestionRepository {
@@ -34,10 +32,6 @@ export class QuestionRepository implements IQuestionRepository {
 	}
 
 	async delete(id: number): Promise<void> {
-		await this.prisma.question.delete({
-			where: {
-				id: id,
-			},
-		});
+		await this.prisma.question.delete({ where: { id } });
 	}
 }
