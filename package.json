@@ -8,7 +8,7 @@
 		"test": "npx jest --passWithNoTests --runInBand --no-cache",
 		"test:verbose": "npx jest",
 		"test:watch": "npm run test -- --watch",
-		"test:ci": "npm run test -- --coverage"
+		"test:ci": "npm run test -- --silent --coverage"
 	},
 	"keywords": [],
 	"author": "",

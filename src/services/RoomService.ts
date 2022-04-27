@@ -14,7 +14,7 @@ interface IRoomService {
 export class RoomService implements IRoomService {
 	constructor(private repository: IRoomRepository) {}
 
-	public async create({ name, password }: CreateProps): Promise<boolean> {
+	async create({ name, password }: CreateProps): Promise<boolean> {
 		try {
 			await this.repository.create(name, password);
 
@@ -24,7 +24,8 @@ export class RoomService implements IRoomService {
 			return false;
 		}
 	}
-	public async get(id: any): Promise<any> {
+
+	async get(id: any): Promise<any | undefined> {
 		try {
 			const parseId = parseInt(id);
 
@@ -34,7 +35,8 @@ export class RoomService implements IRoomService {
 			return false;
 		}
 	}
-	public async delete(id: any): Promise<boolean> {
+
+	async delete(id: any): Promise<boolean> {
 		try {
 			const parseId = parseInt(id);
 			await this.repository.delete(parseId);
