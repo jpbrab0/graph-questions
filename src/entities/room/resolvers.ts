@@ -7,11 +7,11 @@ const service = new RoomService(roomRepository);
 
 export const roomResolver = {
 	Mutation: {
-		createRoom: (_, { data }, __) => service.create(data),
-		deleteRoom: (_, { id }, __) => service.delete(id),
+		createRoom: async (_, { data }) => service.create(data),
+		deleteRoom: async (_, { id }) => service.delete(id),
 	},
 
 	Query: {
-		getRoomInfo: (_, { id }, __) => service.get(id),
+		getRoomInfo: (_, { id }) => service.get(id),
 	},
 };

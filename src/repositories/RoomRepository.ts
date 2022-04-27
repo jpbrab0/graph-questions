@@ -1,18 +1,9 @@
-/* eslint-disable no-unused-vars */
-
 import { PrismaClient } from '@prisma/client';
 
-interface GetReturnTypes {
-	id: number;
-	name: string;
-	password?: string;
-	questions: Array<{ question: string; roomId: number } | any>;
-}
-
 export interface IRoomRepository {
-	create(name: string, password?: string);
-	get(id: number): Promise<GetReturnTypes>;
-	delete(id: number);
+	create(name: string, password?: string): Promise<void>;
+	get(id: number): Promise<any>;
+	delete(id: number): Promise<void>;
 }
 
 export class RoomRepository implements IRoomRepository {
@@ -20,7 +11,7 @@ export class RoomRepository implements IRoomRepository {
 		this.prisma = prisma;
 	}
 
-	async create(name: string, password?: string) {
+	async create(name: string, password?: string): Promise<void> {
 		await this.prisma.room.create({
 			data: {
 				name,
@@ -32,8 +23,8 @@ export class RoomRepository implements IRoomRepository {
 		});
 	}
 
-	async get(id: number): Promise<GetReturnTypes> {
-		return await this.prisma.room.findUnique({
+	async get(id: number): Promise<any> {
+		return this.prisma.room.findUnique({
 			where: {
 				id,
 			},
@@ -43,11 +34,7 @@ export class RoomRepository implements IRoomRepository {
 		});
 	}
 
-	async delete(id: number) {
-		await this.prisma.room.delete({
-			where: {
-				id: id,
-			},
-		});
+	async delete(id: number): Promise<void> {
+		await this.prisma.room.delete({ where: { id }});
 	}
 }

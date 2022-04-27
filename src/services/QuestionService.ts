@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { IQuestionRepository } from '../repositories/QuestionRepository';
 
 type CreateProps = {
@@ -13,14 +12,12 @@ interface IQuestionService {
 }
 
 export class QuestionService implements IQuestionService {
-	constructor(private repository: IQuestionRepository) {
-		this.repository = repository;
-	}
+	constructor(private repository: IQuestionRepository) {}
 
 	public async create({ question, roomId }): Promise<boolean> {
 		try {
 			const parsedRoomId = parseInt(roomId);
-			this.repository.create(question, parsedRoomId);
+			await this.repository.create(question, parsedRoomId);
 
 			return true;
 		} catch (e) {
@@ -31,21 +28,21 @@ export class QuestionService implements IQuestionService {
 	async read(id: any): Promise<boolean> {
 		try {
 			const parsedId = parseInt(id);
-			this.repository.read(parsedId);
+			await this.repository.read(parsedId);
 
 			return true;
-		} catch (e) {
-			throw Error(e);
+		} catch (error) {
+			throw Error(error);
 		}
 	}
 	async delete(id: any): Promise<boolean> {
 		try {
 			const parsedId = parseInt(id);
-			this.repository.delete(parsedId);
+			await this.repository.delete(parsedId);
 
 			return true;
-		} catch (e) {
-			throw Error(e);
+		} catch (error) {
+			throw Error(error);
 		}
 	}
 }

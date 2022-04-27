@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars */
-
 import { IRoomRepository } from '../repositories/RoomRepository';
 
 type CreateProps = {
@@ -9,26 +7,24 @@ type CreateProps = {
 
 interface IRoomService {
 	create({ name, password }: CreateProps): Promise<boolean>;
-	get(id: any): Promise<object | false>;
+	get(id: any): Promise<any>;
 	delete(id: any): Promise<boolean>;
 }
 
 export class RoomService implements IRoomService {
-	constructor(private repository: IRoomRepository) {
-		this.repository = repository;
-	}
+	constructor(private repository: IRoomRepository) {}
 
-	public async create({ name, password }): Promise<boolean> {
+	public async create({ name, password }: CreateProps): Promise<boolean> {
 		try {
-			this.repository.create(name, password);
+			await this.repository.create(name, password);
 
 			return true;
-		} catch (e) {
-			console.log(e);
+		} catch (error) {
+			console.log(error);
 			return false;
 		}
 	}
-	public async get(id: any): Promise<object | false> {
+	public async get(id: any): Promise<any> {
 		try {
 			const parseId = parseInt(id);
 
@@ -41,11 +37,11 @@ export class RoomService implements IRoomService {
 	public async delete(id: any): Promise<boolean> {
 		try {
 			const parseId = parseInt(id);
-			this.repository.delete(parseId);
+			await this.repository.delete(parseId);
 
 			return true;
-		} catch (e) {
-			console.log(e);
+		} catch (error) {
+			console.log(error);
 			return false;
 		}
 	}
